@@ -5,8 +5,6 @@ import store from './store'
 
 //外部样式引用
 
-
-
 Vue.config.productionTip = false
 
 new Vue({

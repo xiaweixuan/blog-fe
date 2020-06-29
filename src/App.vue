@@ -5,11 +5,18 @@
 </template>
 <script>
 import Index from '@/views/index.vue'
+import {mapActions} from 'vuex'
 export default {
   name: 'App',
   components: {
     Index
-  }
+  },
+  methods: {
+    ...mapActions(['getEquipmentType'])
+  },
+  created() {
+    this.getEquipmentType()
+  },
 }
 </script>
 <style lang='less'>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="headerType==='pc'" class="header-pc">
+    <div v-if="type==='pc'" class="header-pc">
       <div class="logo">sanwix</div>
       <ul class="catalog">
         <li
@@ -11,7 +11,7 @@
         >{{item.name}}</li>
       </ul>
     </div>
-    <div v-if="headerType==='phone'" class="header-phone">
+    <div v-if="type==='phone'" class="header-phone">
       <div class="logo">sanwix</div>
       <i class="fa-x fa fa-bars icon" @click="showTab"></i>
       <div class="catalog" :style="{
@@ -33,18 +33,24 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 export default {
   name: "Header",
   data() {
     return {
       tabList: [
         { name: "home", path: "/home" },
-        { name: "blogs", path: "https://segmentfault.com/u/guoshiyouxi/articles" },
+        {
+          name: "blogs",
+          path: "https://segmentfault.com/u/guoshiyouxi/articles"
+        },
         { name: "life", path: "/life" },
         { name: "note", path: "https://note.xiawx.top" },
         { name: "photos", path: "/photos" },
-        { name: "resume", path: "https://xiaweixuan.github.io/resume/index.pdf" },
+        {
+          name: "resume",
+          path: "https://xiaweixuan.github.io/resume/index.pdf"
+        },
         { name: "setting", path: "/setting" }
       ],
       phone: {
@@ -53,22 +59,19 @@ export default {
     };
   },
   computed: {
-    ...mapState(["index"]),
-    headerType() {
-      console.log(document.body.clientWidth);
-      return document.body.clientWidth < 425 ? "phone" : "pc";
-    }
+    ...mapState(["index", "type"])
   },
   components: {},
   methods: {
+    ...mapMutations(["changeStatue"]),
     showTab() {
       this.phone.showTab = !this.phone.showTab;
     },
     changePage(e, pageName) {
-      if (this.headerType === "phone") {
+      if (this.type === "phone") {
         this.phone.showTab = false;
-      } else {
       }
+      
       switch (pageName.name) {
         case "blogs":
           window.open(pageName.path);
@@ -77,11 +80,15 @@ export default {
           window.open(pageName.path);
           return;
         case "resume":
-           window.open(pageName.path)
+          window.open(pageName.path);
           return;
         default:
           break;
       }
+      // console.log(this)
+      var pageState = this.index;
+      pageState.currentPage = pageName.name;
+      this.changeStatue({ name: "index", value: pageState });
       this.$router.push(pageName.path);
     }
   }
@@ -116,10 +123,10 @@ export default {
     font-size: 24px;
     color: rgb(70, 70, 70);
     .item-active {
-      color: darkcyan;
+      color: #90acd1;
     }
     .item:hover {
-      color: darkcyan;
+      color: #90acd1;
     }
   }
 }
