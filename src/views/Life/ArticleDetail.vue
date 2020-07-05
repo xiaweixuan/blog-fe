@@ -1,25 +1,16 @@
 <template>
-  <div class="life">
+  <div class="articleDetail">
     <section class="slogan">
       <p class="title">IT'S MY LIFE</p>
       <p class="content">I want to fill my life with a ray of sunshine</p>
     </section>
     <section class="main">
       <div class="contain">
-        <div v-if="type==='pc'" class="main-left">
-          <UsrCard :usrMsg="usrMsg" />
-        </div>
         <div class="main-center">
-          <div v-if="showArticleList.length===0" class="tips">
-            什么也没有搜到欸~
-          </div>
-          <ArticleCard v-for="item in showArticleList" :key="item.open_id" :article="item" :handle="toArticleDetail" />
+          <div v-html="content" class="article"></div>
         </div>
         <div v-if="type==='pc'" class="main-right">
-          <div class="inside-contain">
-            <SearchBox :handle="searchHandle" />
-            <MPlayer />
-          </div>
+          <MPlayer/>
         </div>
       </div>
     </section>
@@ -27,61 +18,34 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import ArticleCard from "@/components/life/ArticleCard";
-import SearchBox from "@/components/life/SearchBox";
 import MPlayer from "@/components/life/MPlayer";
-import UsrCard from "@/components/life/UsrCard";
 import { mapState } from "vuex";
-import {getAllLifeArticle} from '@/api'
+import {getArticleDetail} from '@/api'
+
+
 export default {
-  name: "Life",
+  name: "ArticleDetail",
   data() {
     return {
-      usrMsg: {
-        imgPath: require("../../assets/test-img/2.jpg"),
-        bName: "过时游戏",
-        dName: ""
-      },
-      searchCard: {},
-      articleList:[
-        {
-          id:1,
-          imgPath:require("../../assets/test-img/2.jpg"),
-          title:"一篇文章", 
-          synopsis:"青春，如同一场盛大而华丽的戏，我们有着不同的假面，扮演着不同的角色，演绎着不同的经历，却有着相同的悲哀。"
-        },
-      ],
-      searchCharacter:""
+      content:`<h2>一篇文章</h2><p>他的世界沒有她，她的世界只有他。世界就是這樣，從來沒有公平可言。這是一場没有时限的角力战，誰在乎的越多，就輸的越慘。你会不会忽然的出现，在街角的咖啡店，我会带着笑脸，和你寒暄，不去说从前，只是寒暄，对你说一句，只是说一句，好久不见</p>`
     };
   },
-  computed: {
+    computed: {
     ...mapState(["type"]),
     showArticleList(){
       return this.searchCharacter?this.articleList.filter(item=>item.title.includes(this.searchCharacter)):this.articleList
     }
   },
-  components: { ArticleCard, SearchBox, MPlayer, UsrCard },
+  props: [],
+  components: {MPlayer},
   created() {
-    getAllLifeArticle().then(res=>{
+    // console.log(this.$route.query.id)
+     getArticleDetail(this.$route.query.id).then(res=>{
       console.log(res.result)
-      res.code===200 && (this.articleList=res.result.filter(item=>{
-        item.imgPath=Vue.baseURL+item.imgPath
-        return true
-      }))
-      
+      this.content=res.result.data
     })
-   
   },
-  methods: {
-    searchHandle(val) {
-      // console.log(val);
-      this.searchCharacter=val
-    },
-    toArticleDetail(id,e){
-      this.$router.push({name:'ArticleDetail',query: {id:id}})
-    }
-  }
+  methods: {}
 };
 </script>
 
@@ -94,14 +58,13 @@ export default {
   font-family: ne;
   src: url("../../assets/font/SundayMorning.otf");
 }
-.life {
+.articleDetail {
   overflow: hidden;
   .slogan {
     text-align: center;
     width: 85%;
     margin: auto;
     font-weight: bolder;
-
     .title {
       font-size: 40px;
       font-family: rosell;
@@ -118,16 +81,11 @@ export default {
     margin-top: 35px;
     box-shadow: 0 0 50px 5px #cfcfcf;
     overflow: hidden;
-    .tips{
-      color: rgb(104, 104, 104);
-      font-size: 24px;
-    }
-
   }
 }
 @media screen and (max-width: 425px) {
   //手机
-  .life {
+  .articleDetail {
     .slogan {
       height: 380px;
     }
@@ -147,7 +105,7 @@ export default {
 }
 @media screen and (min-width: 426px) {
   //pc
-  .life {
+  .articleDetail {
     .slogan {
       height: 276px;
     }
@@ -157,20 +115,20 @@ export default {
         margin: auto;
         box-sizing: border-box;
         display: grid;
-        grid-template-columns: 300px 1fr 300px;
+        grid-template-columns: 1fr 300px;
         padding-top: 60px;
         grid-gap: 25px;
         div {
           padding: 5px;
           text-align: center;
         }
-        .main-right {
-          .inside-contain {
-            display: grid;
-            grid-auto-flow: row;
-            grid-gap: 35px;
-          }
-        }
+        // .main-right {
+        //   .inside-contain {
+        //     display: grid;
+        //     grid-auto-flow: row;
+        //     grid-gap: 35px;
+        //   }
+        // }
       }
     }
   }

@@ -1,15 +1,21 @@
 <template>
   <div id='app'>
+    <Maske v-show="maske.show"/>
     <Index />
   </div>
 </template>
 <script>
 import Index from '@/views/index.vue'
-import {mapActions} from 'vuex'
+import {mapActions,mapState} from 'vuex'
+import Maske from "@/components/index/Maske";
 export default {
   name: 'App',
   components: {
-    Index
+    Index,
+    Maske
+  },
+  computed: {
+    ...mapState(['maske'])
   },
   methods: {
     ...mapActions(['getEquipmentType'])
@@ -32,13 +38,6 @@ dl,
 li,
 dt,
 dd,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
 th,
 td,
 dl,
@@ -80,15 +79,6 @@ body {
   color: #282828;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5 {
-  font-weight: normal;
-  font-size: 14px;
 }
 
 a {
@@ -148,4 +138,12 @@ textarea {
   padding: 0px;
   margin: 0;
 }
+//文章样式
+// p{
+//   font-size: 18px;
+//   line-height: 30px;
+//   letter-spacing:5px;
+//   // text-align: left;
+//   text-indent: 46px;
+// }
 </style>

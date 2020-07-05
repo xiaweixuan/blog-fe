@@ -1,24 +1,8 @@
-# blog-fe
+### 个人主页
+(预览地址)[http://xiawx.top]
 
-## Project setup
+本地使用
 ```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
+npm i
 npm run serve
 ```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

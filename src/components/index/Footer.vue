@@ -9,7 +9,10 @@
       </div>
     </section>
     <section class="record">
-      <p>Copyright ©2020<a target="_blank" href="http://icp.chinaz.com/xiawx.top">冀ICP备19035413号</a></p>
+      <p>
+        Copyright ©2020
+        <a target="_blank" href="http://icp.chinaz.com/xiawx.top">冀ICP备19035413号</a>
+      </p>
     </section>
   </div>
 </template>
@@ -43,8 +46,11 @@ export default {
   padding: 65px 0 25px 0;
   .title {
     padding: 35px 0;
-    font-family: din-bold;
-    font-size: 55px;
+    p {
+      font-family: din-bold;
+      font-size: 55px;
+      text-align: center;
+    }
   }
   .about {
     padding: 15px 0 15px 0;
@@ -60,7 +66,10 @@ export default {
   .record {
     padding: 5px 0;
     color: rgb(73, 73, 73);
-    a{
+    p{
+      text-align: center;
+    }
+    a {
       color: rgb(255, 71, 71);
     }
   }

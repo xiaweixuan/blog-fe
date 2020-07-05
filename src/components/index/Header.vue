@@ -23,7 +23,7 @@
               v-for="item in tabList"
               :key="item.name"
               :class="item.name===index.currentPage?'item item-active':'item'"
-              @click="changePage"
+              @click="changePage($event,item)"
             >{{item.name}}</li>
           </ul>
         </div>
@@ -71,7 +71,7 @@ export default {
       if (this.type === "phone") {
         this.phone.showTab = false;
       }
-      
+      console.log(pageName)
       switch (pageName.name) {
         case "blogs":
           window.open(pageName.path);

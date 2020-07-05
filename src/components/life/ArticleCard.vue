@@ -1,8 +1,8 @@
 <template>
   <div class="articleCard">
-    <img class="usr-img" :src="imgSrc" />
-    <p class="usr-title">一篇文章</p>
-    <p class="usr-synopsis">青春，如同一场盛大而华丽的戏，我们有着不同的假面，扮演着不同的角色，演绎着不同的经历，却有着相同的悲哀。</p>
+    <img class="usr-img" :src="article.imgPath" @click="handle(article.open_id,$event)"/>
+    <p class="usr-title" @click="handle(article.id,$event)">{{article.title}}</p>
+    <p class="usr-synopsis">{{article.synopsis}}</p>
   </div>
 </template>
 
@@ -13,14 +13,15 @@ export default {
     return {};
   },
 
-  props: ["imgPath", "title", "synopsis","handle"],
+  props: ["article","handle"],
   computed: {
-    imgSrc() {
-      return require("../../assets/test-img/2.jpg");
-    }
+    // imgSrc() {
+    //   return require("../../assets/test-img/2.jpg");
+    // }
   },
   components: {},
-  created() {},
+  created() {
+  },
   methods: {}
 };
 </script>
