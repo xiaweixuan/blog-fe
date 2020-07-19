@@ -7,10 +7,14 @@
     <section class="main">
       <div class="contain">
         <div class="main-center">
-          <div v-html="content" class="article"></div>
+          <img class="cover" :src="articleMsg.imgPath" />
+          <div class="title">{{articleMsg.title}}</div>
+
+          <div class="synopsis">{{articleMsg.synopsis}}</div>
+          <div v-html="articleMsg.data" class="article"></div>
         </div>
         <div v-if="type==='pc'" class="main-right">
-          <MPlayer/>
+          <MPlayer />
         </div>
       </div>
     </section>
@@ -18,32 +22,41 @@
 </template>
 
 <script>
+import Vue from "vue";
 import MPlayer from "@/components/life/MPlayer";
 import { mapState } from "vuex";
-import {getArticleDetail} from '@/api'
-
+import { getArticleDetail } from "@/api";
 
 export default {
   name: "ArticleDetail",
   data() {
     return {
-      content:`<h2>一篇文章</h2><p>他的世界沒有她，她的世界只有他。世界就是這樣，從來沒有公平可言。這是一場没有时限的角力战，誰在乎的越多，就輸的越慘。你会不会忽然的出现，在街角的咖啡店，我会带着笑脸，和你寒暄，不去说从前，只是寒暄，对你说一句，只是说一句，好久不见</p>`
+      articleMsg: {
+        title: "",
+        data: "",
+        imgPath: "",
+        synopsis: ""
+      }
     };
   },
-    computed: {
+  computed: {
     ...mapState(["type"]),
-    showArticleList(){
-      return this.searchCharacter?this.articleList.filter(item=>item.title.includes(this.searchCharacter)):this.articleList
+    showArticleList() {
+      return this.searchCharacter
+        ? this.articleList.filter(item =>
+            item.title.includes(this.searchCharacter)
+          )
+        : this.articleList;
     }
   },
   props: [],
-  components: {MPlayer},
+  components: { MPlayer },
   created() {
     // console.log(this.$route.query.id)
-     getArticleDetail(this.$route.query.id).then(res=>{
-      console.log(res.result)
-      this.content=res.result.data
-    })
+    getArticleDetail(this.$route.query.id).then(res => {
+      res.result.imgPath = Vue.baseURL + res.result.imgPath;
+      this.articleMsg = res.result;
+    });
   },
   methods: {}
 };
@@ -81,6 +94,27 @@ export default {
     margin-top: 35px;
     box-shadow: 0 0 50px 5px #cfcfcf;
     overflow: hidden;
+    .main-center {
+      .cover {
+        border-radius: 15px;
+        width: 80%;
+        margin-bottom: 25px;
+      }
+      .title {
+        font-size: 24pt;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .synopsis {
+        font-size: 10pt;
+        color: rgb(156, 156, 156);
+        text-align: left;
+      }
+      .synopsis::before{
+        content: "-- --";
+      }
+    }
   }
 }
 @media screen and (max-width: 425px) {

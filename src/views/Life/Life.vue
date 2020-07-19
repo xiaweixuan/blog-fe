@@ -63,10 +63,11 @@ export default {
   },
   components: { ArticleCard, SearchBox, MPlayer, UsrCard },
   created() {
+    console.log(1)
     getAllLifeArticle().then(res=>{
-      console.log(res.result)
+      console.log(2)
       res.code===200 && (this.articleList=res.result.filter(item=>{
-        item.imgPath=Vue.baseURL+item.imgPath
+        item.imgPath=Vue.baseURL+'/'+item.imgPath
         return true
       }))
       

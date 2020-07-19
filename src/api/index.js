@@ -14,5 +14,12 @@ export const getArticleDetail = function (id) {
     })
 }
 
+export const getPhotos = function (id) {
+    return axios({
+        method: 'GET',
+        url: '/photos/all'
+    })
+}
+
 
 

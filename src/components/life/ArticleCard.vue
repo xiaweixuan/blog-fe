@@ -34,6 +34,7 @@ export default {
     border-radius: 8px;
     margin-bottom: 15px;
     transition: all 0.5s ease-out;
+    cursor: pointer;
   }
   .usr-img:hover {
     transform: scale(1.05);

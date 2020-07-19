@@ -1,29 +1,29 @@
 <template>
-  <div id='app'>
-    <Maske v-show="maske.show"/>
+  <div id="app">
+    <Maske v-show="maske.show" />
     <Index />
   </div>
 </template>
 <script>
-import Index from '@/views/index.vue'
-import {mapActions,mapState} from 'vuex'
+import Index from "@/views/index.vue";
+import { mapActions, mapState } from "vuex";
 import Maske from "@/components/index/Maske";
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Index,
     Maske
   },
   computed: {
-    ...mapState(['maske'])
+    ...mapState(["maske"])
   },
   methods: {
-    ...mapActions(['getEquipmentType'])
+    ...mapActions(["getEquipmentType"])
   },
   created() {
-    this.getEquipmentType()
-  },
-}
+    this.getEquipmentType();
+  }
+};
 </script>
 <style lang='less'>
 [v-cloak] {
@@ -73,8 +73,8 @@ body {
 body {
   position: relative;
   font-size: 14px;
-  font-family: Helvetica, Tahoma, Arial, 'PingFang SC', 'Hiragino Sans GB',
-    'Heiti SC', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;
+  font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB",
+    "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
   background: #fff;
   color: #282828;
   -webkit-text-size-adjust: 100%;
@@ -123,8 +123,8 @@ table {
 }
 input,
 textarea {
-  font-family: Helvetica, Tahoma, Arial, 'PingFang SC', 'Hiragino Sans GB',
-    'Heiti SC', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;
+  font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB",
+    "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
   outline: none;
 }
 
