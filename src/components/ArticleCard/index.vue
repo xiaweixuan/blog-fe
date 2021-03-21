@@ -1,6 +1,6 @@
 <template>
   <div class="articleCard">
-    <img class="usr-img" :src="article.imgPath" @click="handle(article.open_id,$event)"/>
+    <img class="usr-img" :src="article.cover" @click="handle(article.id,$event)"/>
     <p class="usr-title" @click="handle(article.id,$event)">{{article.title}}</p>
     <p class="usr-synopsis">{{article.synopsis}}</p>
   </div>

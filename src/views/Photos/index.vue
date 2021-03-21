@@ -1,57 +1,42 @@
 <template>
   <div id="about">
     <div id="container">
-      <div class="card-contain" v-for="(item, index) in talkdata" :key="index">
+      <div class="card-contain" v-for="(item, index) in photos" :key="index">
         <div class="card">
-          <img :src="item.imgPath" @click="showImg(item)"/>
-          <p>{{item.describe}}</p>
-          <p>{{item.date}}</p>
+          <img :src="item.img_path" @click="showImg(item)" />
+          <p>{{ item.synopsis }}</p>
+          <p>{{ item.created_at }}</p>
         </div>
       </div>
     </div>
   </div>
 </template>
+
 <script>
-import Vue from 'vue'
-import { getPhotos } from "@/api";
+import Vue from "vue";
+import { mapActions, mapState } from "vuex";
 export default {
   name: "Photos",
-  data() {
-    return {
-      talkdata: [
-        {
-          open_id:"",
-          imgPath: "",
-          describe: "",
-          date: ""
-        }
-      ]
-    };
-  },
-  created() {
-    getPhotos().then(res => {
-      res.code === 200 &&
-        (this.talkdata = res.result.filter(item => {
-          item.imgPath = Vue.baseURL + item.imgPath;
-          return true;
-        }));
-    });
-  },
   computed: {
-    // Color() {
-    //   return this.$store.state.Color
-    // }
-  },
-  mounted() { 
+    ...mapState({
+      photos: state => {
+        const { byId, allIds } = state.photo;
+        return allIds.map(id => byId[id]);
+      }
+    })
   },
   methods: {
-    showImg(item){
-      // console.log(item.imgPath)
-      window.open(item.imgPath);
+    ...mapActions(["getPhotos"]),
+    showImg(item) {
+      window.open(item.img_path);
     }
+  },
+  mounted() {
+    this.getPhotos();
   },
 };
 </script>
+
 <style lang="less" scoped>
 #about {
   width: 90%;

@@ -1,6 +1,6 @@
 <template>
   <div class="searchBox">
-    <input class="ipt" v-model="value" type="text" />
+    <input class="ipt" v-model="value" type="text" @keydown="onKeydown" />
     <i class="fa-2x fa fa-search icon" @click="handle(value)"></i>
   </div>
 </template>
@@ -10,15 +10,15 @@ export default {
   name: "SearchBox",
   data() {
     return {
-      value:""
+      value: ""
     };
   },
-
-  props: [ "handle"],
-  computed: {},
-  components: {},
-  created() {},
-  methods: {}
+  props: ["handle"],
+  methods: {
+    onKeydown(e) {
+      e.keyCode === 13 && this.handle(this.value);
+    }
+  }
 };
 </script>
 

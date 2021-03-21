@@ -15,37 +15,37 @@
       </div>
     </section>
     <section class="blog-introduce">
-      <p class="header"  v-if="type==='pc'" >I’m delighted to make your acquaintance</p>
+      <p class="header">
+        I’m delighted to make your acquaintance
+      </p>
       <div class="contain">
-        <TwoManAnimate v-if="type==='pc'" width="400px" height="400px" />
+        <TwoManAnimate width="400px" height="400px" />
         <div class="Copywriting">
           <p class="font-weight">Hi! Predestined You</p>
           <p>很高兴，你能来到我的主页</p>
           <p>
-            <span class="identification">I'am xiaweixuan</span> 前端开发工程师，热爱运动、音乐、绘画，喜欢尝试新鲜的事情，同时也是一名电影迷
+            <span class="identification">I'am xiaweixuan</span>
+            前端开发工程师，热爱运动、音乐、绘画，喜欢尝试新鲜的事情，同时也是一名电影迷
           </p>
-          <p>在这里，记录着我的生活、学习、工作中的点滴。卑辞俚语，不揣浅陋，博一笑尔</p>
+          <p>
+            在这里，记录着我的生活、学习、工作中的点滴。卑辞俚语，不揣浅陋，博一笑尔
+          </p>
         </div>
       </div>
     </section>
-    <section></section>
-    <section></section>
   </div>
 </template>
 
 <script>
-import BoxMoveAnimate from "@/components/common/boxMoveAnimate";
-import TwoManAnimate from "@/components/common/twoManAnimate";
+import BoxMoveAnimate from "@/components/BoxMoveAnimate";
+import TwoManAnimate from "@/components/TwoManAnimate";
 import { mapState } from "vuex";
 export default {
   name: "Home",
   components: { BoxMoveAnimate, TwoManAnimate },
   computed: {
-    ...mapState(["type"])
+    ...mapState(["adapter"])
   },
-  created() {
-    console.log(this.type);
-  }
 };
 </script>
 
@@ -99,10 +99,6 @@ export default {
       width: 75%;
       margin: 50px auto;
       text-align: center;
-      display: grid;
-      // grid-auto-flow: column;
-      grid-gap: 200px;
-      align-items: center;
       .Copywriting {
         text-align: left;
         font-size: 24px;
@@ -127,7 +123,7 @@ export default {
     height: 347px;
   }
   .blog-introduce {
-    p{
+    p {
       text-align: center;
     }
   }
@@ -139,12 +135,11 @@ export default {
   }
   .blog-introduce {
     .contain {
-      grid-auto-flow: column;
+      display: grid;
+      grid-template-columns: 40% 40%;
+      grid-gap: 200px;
+      align-items: center;
     }
   }
 }
 </style>
-
-
-
-

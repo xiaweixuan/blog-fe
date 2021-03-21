@@ -5,13 +5,20 @@
     </section>
     <section class="about">
       <div class="icon-contain">
-        <i v-for="item in iconList" :key="item.name" :class="item.className"></i>
+        <i
+          v-for="item in iconList"
+          :key="item.name"
+          :class="item.className"
+          @click="item.onClick"
+        ></i>
       </div>
     </section>
     <section class="record">
       <p>
         Copyright ©2020
-        <a target="_blank" href="http://icp.chinaz.com/xiawx.top">冀ICP备19035413号</a>
+        <a target="_blank" href="http://icp.chinaz.com/xiawx.top"
+          >冀ICP备19035413号</a
+        >
       </p>
     </section>
   </div>
@@ -23,16 +30,35 @@ export default {
   data() {
     return {
       iconList: [
-        { name: "qq", className: "fa-3x fa fa-qq icon" },
-        { name: "weixin", className: "fa-3x fa fa-weixin icon" },
-        { name: "email", className: "fa-3x fa fa-twitter-square icon" },
-        { name: "github", className: "fa-3x fa fa-github icon" }
+        {
+          name: "qq",
+          className: "fa-3x fa fa-qq icon",
+          onClick: () =>
+            window.open(
+              "tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=1977541709&website=www.oicqzone.com"
+            )
+        },
+        {
+          name: "weixin",
+          className: "fa-3x fa fa-weixin icon",
+          onClick: () => alert("Xiawx_")
+        },
+        {
+          name: "email",
+          className: "fa-3x fa fa-twitter-square icon",
+          onClick: () => window.open("mailto:aaa@5icool.org")
+        },
+        {
+          name: "github",
+          className: "fa-3x fa fa-github icon",
+          onClick: () => window.open("https://github.com/xiaweixuan")
+        }
       ]
     };
-  },
-  components: {}
+  }
 };
 </script>
+
 <style lang="less" scoped>
 @font-face {
   font-family: din-bold; //自定义字体名称
@@ -66,7 +92,7 @@ export default {
   .record {
     padding: 5px 0;
     color: rgb(73, 73, 73);
-    p{
+    p {
       text-align: center;
     }
     a {

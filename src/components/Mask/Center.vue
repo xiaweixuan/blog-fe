@@ -27,29 +27,28 @@
       <span class="status idle"></span>
       <span class="status offline"></span>
     </div>
-    <Button title="点击进入" :handle="enterBlog"/>
+    <Button title="点击进入" :handle="enterBlog" />
   </div>
 </template>
 <script>
-import Button from '@/components/common/Button'
-import {mapActions} from 'vuex'
+import Button from "@/components/common/Button";
+import { mapMutations } from "vuex";
+
 export default {
   name: "center",
-  data() {
-    return {
-    };
-  },
-  components:{Button},
+  components: { Button },
   methods: {
-    ...mapActions(['chagneMaske']),
-    enterBlog(){
-      this.chagneMaske()
+    ...mapMutations(["CHANGE_ISMASKSHOW"]),
+    enterBlog() {
+      this.CHANGE_ISMASKSHOW(false);
     }
-  }
+  },
+
 };
 </script>
+
 <style lang="less" scoped>
-@import url("./style/trigger.less");
+@import url("./index.less");
 @font-face {
   font-family: din-bold; //自定义字体名称
   src: url("../../assets/font/Spartwell.otf"); //注意引入正确位置
@@ -60,10 +59,10 @@ export default {
   align-items: center;
   flex-direction: column;
   .title {
-      margin: 30px 5px 50px 5px;
-      font-family: din-bold;
-      color: #ffffff;
-      font-size: 28px;
+    margin: 30px 5px 50px 5px;
+    font-family: din-bold;
+    color: #ffffff;
+    font-size: 28px;
   }
   .navgation,
   .talk-method {

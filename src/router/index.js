@@ -7,27 +7,32 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('../views/Home/Home.vue')
+    component: () => import('../views/Home')
   },
   {
     path: '/home',
     name: 'Home',
-    component: () => import('../views/Home/Home.vue')
+    component: () => import('../views/Home')
   },
   {
     path: '/life',
     name: 'Life',
-    component: () => import('../views/Life/Life.vue')
+    component: () => import('../views/Life')
   },
   {
-    path: '/articleDetail',
+    path: '/articleDetail/:id',
     name: 'ArticleDetail',
-    component: () => import('../views/Life/ArticleDetail.vue')
+    component: () => import('../views/ArticleDetail')
+  },
+  {
+    path: '/blog',
+    name: 'Blog',
+    component: () => import('../views/Blog')
   },
   {
     path: '/photos',
     name: 'Photos',
-    component: () => import('../views/Photos/Photos.vue')
+    component: () => import('../views/Photos')
   },
   {
     path: '/setting',

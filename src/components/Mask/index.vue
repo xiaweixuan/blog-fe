@@ -1,32 +1,31 @@
 <template>
   <div class="Maskparent">
-    <div id="Maske">
+    <div id="MaskMain">
       <Center class="center" />
       <div class="bg"></div>
     </div>
   </div>
 </template>
+
 <script>
 import Center from "./Center";
 export default {
-  name: "maske",
+  name: "maskBG",
   components: {
     Center
-  }
+  },
 };
 </script>
+
 <style lang="less" scoped>
-
-
-
-#Maske {
+#MaskMain {
   position: fixed;
   top: 0;
   width: 100%;
   height: 100vh;
   transition: all 0.5s;
   z-index: 5;
-//   font-family: din-bold;
+  //   font-family: din-bold;
   .center {
     position: absolute;
     top: 50%;
@@ -38,25 +37,29 @@ export default {
     width: 100%;
     height: 100vh;
     animation: opcity 0.5s linear;
-    background:linear-gradient(#000,#311133);
-    background: url('../../assets/maskeImage/maskeBG.jpg') no-repeat center;
+    background: linear-gradient(#000, #311133);
+    background: url("../../assets/maskImage/maskBG.jpg") no-repeat center;
     background-size: cover;
     z-index: -99;
   }
   .bg::after {
-    content:'';
+    content: "";
     width: 100%;
     height: 100%;
     position: absolute;
     left: 0;
     top: 0;
-    background:inherit;
+    background: inherit;
     filter: blur(3px);
-        opacity: .7;
+    opacity: 0.7;
   }
   @keyframes opcity {
-    0% { transform: translateX(-100%) }
-    100% {  transform: translateX(0%) }
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
   }
   // @media screen and (max-width: 987px) {
   // .bg {

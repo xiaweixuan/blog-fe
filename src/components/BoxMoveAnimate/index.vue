@@ -7,11 +7,9 @@
 <script>
 export default {
   name: "BoxMoveAnimate",
-  components: {},
   props:['height','width'],
   mounted() {
     const c = this.$refs.canvas;
-    console.log(this.$refs)
     var ctx = c.getContext("2d");
 
     function resize() {
@@ -125,12 +123,3 @@ export default {
   }
 };
 </script>
-
-<style lang="less" scoped>
-.boxMoveAnimate {
-}
-</style>
-
-
-
-

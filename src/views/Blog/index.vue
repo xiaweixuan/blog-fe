@@ -1,24 +1,29 @@
 <template>
-  <div class="life">
+  <div class="blog">
     <section class="slogan">
-      <p class="title">IT'S MY LIFE</p>
-      <p class="content">I want to fill my life with a ray of sunshine</p>
+      <p class="title">IT'S MY Blog</p>
+      <p class="content">I want to fill my blog with a ray of sunshine</p>
     </section>
     <section class="main">
       <div class="contain">
-        <div v-if="type==='pc'" class="main-left">
-          <UsrCard :usrMsg="usrMsg" />
+        <div class="main-left">
+          <UsrCard :usrMsg="user" />
         </div>
         <div class="main-center">
-          <div v-if="showArticleList.length===0" class="tips">
+          <div v-if="showArticleList.length === 0" class="tips">
             什么也没有搜到欸~
           </div>
-          <ArticleCard v-for="item in showArticleList" :key="item.open_id" :article="item" :handle="toArticleDetail" />
+          <ArticleCard
+            v-for="item in showArticleList"
+            :key="item.id"
+            :article="item"
+            :handle="toArticleDetail"
+          />
         </div>
-        <div v-if="type==='pc'" class="main-right">
+        <div class="main-right">
           <div class="inside-contain">
             <SearchBox :handle="searchHandle" />
-            <MPlayer />
+            <MPlayer :playList="audioList"/>
           </div>
         </div>
       </div>
@@ -27,61 +32,43 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import ArticleCard from "@/components/life/ArticleCard";
-import SearchBox from "@/components/life/SearchBox";
-import MPlayer from "@/components/life/MPlayer";
-import UsrCard from "@/components/life/UsrCard";
-import { mapState } from "vuex";
-import {getAllLifeArticle} from '@/api'
+import Vue from "vue";
+import ArticleCard from "@/components/ArticleCard";
+import SearchBox from "@/components/common/SearchBox";
+import MPlayer from "@/components/MPlayer";
+import UsrCard from "@/components/UsrCard";
+import { mapState, mapGetters, mapActions } from "vuex";
 export default {
-  name: "Life",
+  name: "blog",
   data() {
     return {
-      usrMsg: {
-        imgPath: require("../../assets/test-img/2.jpg"),
-        bName: "过时游戏",
-        dName: ""
-      },
-      searchCard: {},
-      articleList:[
-        {
-          id:1,
-          imgPath:require("../../assets/test-img/2.jpg"),
-          title:"一篇文章", 
-          synopsis:"青春，如同一场盛大而华丽的戏，我们有着不同的假面，扮演着不同的角色，演绎着不同的经历，却有着相同的悲哀。"
-        },
-      ],
-      searchCharacter:""
+      searchCharacter: ""
     };
   },
   computed: {
-    ...mapState(["type"]),
-    showArticleList(){
-      return this.searchCharacter?this.articleList.filter(item=>item.title.includes(this.searchCharacter)):this.articleList
+    ...mapState(["user"]),
+    ...mapGetters(["blogArticles", "audioList"]),
+    showArticleList() {
+      return this.searchCharacter
+        ? this.blogArticles.filter(item =>
+            item.title.includes(this.searchCharacter)
+          )
+        : this.blogArticles;
     }
   },
   components: { ArticleCard, SearchBox, MPlayer, UsrCard },
-  created() {
-    console.log(1)
-    getAllLifeArticle().then(res=>{
-      console.log(2)
-      res.code===200 && (this.articleList=res.result.filter(item=>{
-        item.imgPath=Vue.baseURL+'/'+item.imgPath
-        return true
-      }))
-      
-    })
-   
-  },
   methods: {
+    ...mapActions(["getArticles", "getAudios"]),
     searchHandle(val) {
-      // console.log(val);
-      this.searchCharacter=val
+      this.searchCharacter = val;
     },
-    toArticleDetail(id,e){
-      this.$router.push({name:'ArticleDetail',query: {id:id}})
+    toArticleDetail(id) {
+      this.$router.push(`/articleDetail/${id}`);
     }
+  },
+  mounted() {
+    this.getArticles();
+    this.getAudios();
   }
 };
 </script>
@@ -95,7 +82,7 @@ export default {
   font-family: ne;
   src: url("../../assets/font/SundayMorning.otf");
 }
-.life {
+.blog {
   overflow: hidden;
   .slogan {
     text-align: center;
@@ -119,16 +106,15 @@ export default {
     margin-top: 35px;
     box-shadow: 0 0 50px 5px #cfcfcf;
     overflow: hidden;
-    .tips{
+    .tips {
       color: rgb(104, 104, 104);
       font-size: 24px;
     }
-
   }
 }
 @media screen and (max-width: 425px) {
   //手机
-  .life {
+  .blog {
     .slogan {
       height: 380px;
     }
@@ -148,7 +134,7 @@ export default {
 }
 @media screen and (min-width: 426px) {
   //pc
-  .life {
+  .blog {
     .slogan {
       height: 276px;
     }
@@ -158,9 +144,9 @@ export default {
         margin: auto;
         box-sizing: border-box;
         display: grid;
-        grid-template-columns: 300px 1fr 300px;
+        grid-template-columns: 20% 50% 20%;
+        justify-content: space-between;
         padding-top: 60px;
-        grid-gap: 25px;
         div {
           padding: 5px;
           text-align: center;

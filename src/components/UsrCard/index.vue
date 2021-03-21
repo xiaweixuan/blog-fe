@@ -1,27 +1,23 @@
 <template>
   <div class="usrCard">
-    <img :src="usrMsg.imgPath" />
-    <p>b站：{{usrMsg.bName}}</p>
-    <p>抖音：{{usrMsg.dName}}</p>
+    <img :src="usrMsg.imgPath || require('../../assets/test-img/2.jpg')" />
+    <p><span class="blod">qq：</span>{{ usrMsg.qq }}</p>
+    <p><span class="blod">weixin：</span>{{ usrMsg.weixin }}</p>
+    <p><span class="blod">email：</span>{{ usrMsg.email }}</p>
   </div>
 </template>
 
 <script>
 export default {
   name: "UsrCard",
-  data() {
-    return {};
-  },
-
-  props: ["usrMsg"],
-  computed: {},
-  components: {},
-  created() {},
-  methods: {}
+  props: ["usrMsg"]
 };
 </script>
 
 <style lang="less" scoped>
+.blod {
+  font-weight: bold;
+}
 .usrCard {
   transition: all 0.5s;
   img {

@@ -7,13 +7,22 @@
     <section class="main">
       <div class="contain">
         <div class="main-center">
-          <img class="cover" :src="articleMsg.imgPath" />
-          <div class="title">{{articleMsg.title}}</div>
-
-          <div class="synopsis">{{articleMsg.synopsis}}</div>
-          <div v-html="articleMsg.data" class="article"></div>
+          <img class="cover" :src="currentArticle && currentArticle.cover" />
+          <div class="title">{{ currentArticle && currentArticle.title }}</div>
+          <div class="synopsis">
+            {{ currentArticle && currentArticle.synopsis }}
+          </div>
+          <div class="article">
+            <Editor
+              :config="{
+                data:
+                  currentArticle &&
+                  this.convertToJson(currentArticle.json_content)
+              }"
+            />
+          </div>
         </div>
-        <div v-if="type==='pc'" class="main-right">
+        <div class="main-right">
           <MPlayer />
         </div>
       </div>
@@ -23,8 +32,9 @@
 
 <script>
 import Vue from "vue";
-import MPlayer from "@/components/life/MPlayer";
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
+import Editor from "@/components/Editor";
+import MPlayer from "@/components/MPlayer";
 import { getArticleDetail } from "@/api";
 
 export default {
@@ -36,11 +46,14 @@ export default {
         data: "",
         imgPath: "",
         synopsis: ""
-      }
+      },
+      article_id: this.$router.currentRoute.params.id
     };
   },
   computed: {
-    ...mapState(["type"]),
+    currentArticle() {
+      return this.$store.state.article.byId[this.article_id];
+    },
     showArticleList() {
       return this.searchCharacter
         ? this.articleList.filter(item =>
@@ -49,16 +62,21 @@ export default {
         : this.articleList;
     }
   },
-  props: [],
-  components: { MPlayer },
-  created() {
-    // console.log(this.$route.query.id)
-    getArticleDetail(this.$route.query.id).then(res => {
-      res.result.imgPath = Vue.baseURL + res.result.imgPath;
-      this.articleMsg = res.result;
-    });
+  components: { MPlayer, Editor },
+  methods: {
+    ...mapActions(["getArticles"]),
+    convertToJson(str) {
+      try {
+        const json = JSON.parse(str);
+        return json;
+      } catch (error) {
+        return { blocks: [] };
+      }
+    }
   },
-  methods: {}
+  mounted() {
+    this.getArticles();
+  }
 };
 </script>
 
@@ -111,7 +129,7 @@ export default {
         color: rgb(156, 156, 156);
         text-align: left;
       }
-      .synopsis::before{
+      .synopsis::before {
         content: "-- --";
       }
     }
@@ -156,13 +174,6 @@ export default {
           padding: 5px;
           text-align: center;
         }
-        // .main-right {
-        //   .inside-contain {
-        //     display: grid;
-        //     grid-auto-flow: row;
-        //     grid-gap: 35px;
-        //   }
-        // }
       }
     }
   }

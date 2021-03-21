@@ -1,36 +1,55 @@
 <template>
   <div id="app">
-    <Maske v-show="maske.show" />
-    <Index />
+    <MaskBG v-show="isMaskShow" />
+    <BasicLayout />
   </div>
 </template>
+
 <script>
-import Index from "@/views/index.vue";
 import { mapActions, mapState } from "vuex";
-import Maske from "@/components/index/Maske";
+import MaskBG from "@/components/Mask";
+import BasicLayout from "@/layout/BasicLayout";
+import { debounce } from "@/utils/utils";
+
 export default {
   name: "App",
   components: {
-    Index,
-    Maske
+    BasicLayout,
+    MaskBG
   },
   computed: {
-    ...mapState(["maske"])
+    ...mapState(["isMaskShow"])
   },
   methods: {
-    ...mapActions(["getEquipmentType"])
+    ...mapActions(["getShowMode", "getUserMsg"])
   },
-  created() {
-    this.getEquipmentType();
+  mounted() {
+    const { getShowMode, getUserMsg } = this;
+    getShowMode();
+    getUserMsg();
+    window.onresize = debounce(getShowMode, 1000);
   }
 };
+const a = {
+  markeds: [
+    {
+      seg: "home",
+      start: 17,
+      end: 21,
+      grammar: ["superlative", "comparative"],
+      article_id: "001",
+      sen_orig: "The earth is our home",
+      range: "17:21"
+    }
+  ]
+};
 </script>
-<style lang='less'>
+
+<style lang="less">
 [v-cloak] {
   display: none;
 }
 /*清除样式*/
-
 body,
 ol,
 ul,
@@ -138,12 +157,4 @@ textarea {
   padding: 0px;
   margin: 0;
 }
-//文章样式
-// p{
-//   font-size: 18px;
-//   line-height: 30px;
-//   letter-spacing:5px;
-//   // text-align: left;
-//   text-indent: 46px;
-// }
 </style>

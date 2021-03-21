@@ -1,30 +1,37 @@
 <template>
   <div>
-    <div v-if="type==='pc'" class="header-pc">
+    <div v-if="adapter === 'pc'" class="header-pc">
       <div class="logo">sanwix</div>
       <ul class="catalog">
         <li
           v-for="item in tabList"
           :key="item.name"
-          :class="item.name===index.currentPage?'item item-active':'item'"
-          @click="changePage($event,item)"
-        >{{item.name}}</li>
+          :class="item.name === currentPage ? 'item item-active' : 'item'"
+          @click="changePage($event, item)"
+        >
+          {{ item.name }}
+        </li>
       </ul>
     </div>
-    <div v-if="type==='phone'" class="header-phone">
+    <div v-if="adapter === 'phone'" class="header-phone">
       <div class="logo">sanwix</div>
       <i class="fa-x fa fa-bars icon" @click="showTab"></i>
-      <div class="catalog" :style="{
-        'display':phone.showTab?'block':'none'
-      }">
+      <div
+        class="catalog"
+        :style="{
+          display: phone.showTab ? 'block' : 'none'
+        }"
+      >
         <div class="tabs-contain">
           <ul class="tabs">
             <li
               v-for="item in tabList"
               :key="item.name"
-              :class="item.name===index.currentPage?'item item-active':'item'"
-              @click="changePage($event,item)"
-            >{{item.name}}</li>
+              :class="item.name === currentPage ? 'item item-active' : 'item'"
+              @click="changePage($event, item)"
+            >
+              {{ item.name }}
+            </li>
           </ul>
         </div>
       </div>
@@ -38,12 +45,10 @@ export default {
   name: "Header",
   data() {
     return {
+      currentPage: window.location.pathname.split("/")[1],
       tabList: [
         { name: "home", path: "/home" },
-        {
-          name: "blogs",
-          path: "https://segmentfault.com/u/guoshiyouxi/articles"
-        },
+        {name: "blogs",  path: "/blog"},
         { name: "life", path: "/life" },
         { name: "note", path: "https://note.xiawx.top" },
         { name: "photos", path: "/photos" },
@@ -59,23 +64,18 @@ export default {
     };
   },
   computed: {
-    ...mapState(["index", "type"])
+    ...mapState(["adapter"])
   },
-  components: {},
   methods: {
     ...mapMutations(["changeStatue"]),
     showTab() {
       this.phone.showTab = !this.phone.showTab;
     },
     changePage(e, pageName) {
-      if (this.type === "phone") {
+      if (this.adapter === "phone") {
         this.phone.showTab = false;
       }
-      console.log(pageName)
       switch (pageName.name) {
-        case "blogs":
-          window.open(pageName.path);
-          return;
         case "note":
           window.open(pageName.path);
           return;
@@ -83,17 +83,14 @@ export default {
           window.open(pageName.path);
           return;
         default:
-          break;
+          this.currentPage = pageName.name;
+          this.$router.push(pageName.path);
       }
-      // console.log(this)
-      var pageState = this.index;
-      pageState.currentPage = pageName.name;
-      this.changeStatue({ name: "index", value: pageState });
-      this.$router.push(pageName.path);
     }
   }
 };
 </script>
+
 <style lang="less" scoped>
 @font-face {
   font-family: din-bold; //自定义字体名称
@@ -105,7 +102,7 @@ export default {
   display: grid;
   height: 150px;
   padding: 15px 35px;
-  grid-template-columns: 260px 1fr 1fr;
+  grid-template-columns: 260px 1fr;
   align-content: stretch;
   align-items: center;
   .logo {
@@ -119,7 +116,7 @@ export default {
     cursor: pointer;
     align-content: stretch;
     align-items: center;
-    grid-gap: 35px;
+    // grid-gap: 35px;
     font-size: 24px;
     color: rgb(70, 70, 70);
     .item-active {
